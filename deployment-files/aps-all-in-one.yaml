@@ -1,54 +1,74 @@
-# StatefulSet for MongoDB
+# -----------------------------
+# MongoDB StatefulSet
+# -----------------------------
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mongodb
 spec:
-  serviceName: mongodb # Associated headless service for DNS resolution
-  replicas: 1 # Number of MongoDB replicas
+  serviceName: mongodb
+  replicas: 1
   selector:
     matchLabels:
-      app: mongodb # Labels to match for this StatefulSet
+      app: mongodb
   template:
     metadata:
       labels:
-        app: mongodb # Pod label for identification
+        app: mongodb
     spec:
       nodeSelector:
-        "kubernetes.io/os": linux # Run only on Linux nodes
+        kubernetes.io/os: linux
       containers:
         - name: mongodb
-          image: mongo:4.2 # MongoDB container image version
+          image: mongo:4.4
           ports:
-            - containerPort: 27017 # Default MongoDB port
+            - containerPort: 27017
               name: mongodb
-          resources: # Resource requests and limits for MongoDB
+          resources:
             requests:
-              cpu: 5m # Minimum CPU
-              memory: 75Mi # Minimum Memory
+              cpu: 50m
+              memory: 128Mi
             limits:
-              cpu: 25m # Maximum CPU
-              memory: 1024Mi # Maximum Memory
-          livenessProbe: # Probe to check MongoDB health
+              cpu: 500m
+              memory: 512Mi
+          volumeMounts:
+            - name: mongo-data
+              mountPath: /data/db
+          livenessProbe:
             exec:
               command:
                 - mongosh
                 - --eval
                 - db.runCommand('ping').ok
-            initialDelaySeconds: 5 # Wait time before starting probe
-            periodSeconds: 5 # Interval between probes
+            initialDelaySeconds: 30
+            periodSeconds: 10
+
+  volumeClaimTemplates:
+    - metadata:
+        name: mongo-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: managed-csi
+        resources:
+          requests:
+            storage: 5Gi
+
 ---
-# Service to expose MongoDB
+# -----------------------------
+# MongoDB Service (ClusterIP)
+# -----------------------------
 apiVersion: v1
 kind: Service
 metadata:
   name: mongodb
 spec:
-  ports:
-    - port: 27017 # MongoDB service port
+  clusterIP: None   # Headless service (recommended for StatefulSets)
   selector:
-    app: mongodb # Target pods with label `app: mongodb`
-  type: ClusterIP # Internal cluster service
+    app: mongodb
+  ports:
+    - name: mongodb
+      port: 27017
+      targetPort: 27017
 ---
 # StatefulSet for RabbitMQ
 apiVersion: apps/v1
@@ -242,7 +262,7 @@ spec:
         "kubernetes.io/os": linux
       containers:
         - name: makeline-service
-          image: soufianealgonquin/makeline-service-final:latest # Custom Makeline service image
+          image: soufianealgonquin/makeline-service-final:v3 # Custom Makeline service image
           ports:
             - containerPort: 3001 # Makeline service listens on this port
           env: # Environment variables for configuration
@@ -458,7 +478,7 @@ spec:
         "kubernetes.io/os": linux
       containers:
         - name: store-admin
-          image: soufianealgonquin/store-admin-final:latest # Admin interface for store
+          image: soufianealgonquin/store-admin-final:v2 # Admin interface for store
           ports:
             - containerPort: 8081 # Admin app port
               name: store-admin
