@@ -35,11 +35,15 @@ flowchart LR
 
 ## Brief Application Explanation
 
-This project is a **cloud-native microservices retail application** deployed on **Azure Kubernetes Service (AKS)**. It simulates a BestBuy-style online store with separate **customer** and **admin** interfaces. The **Store-Front** allows customers to browse products and place orders, while the **Store-Admin** enables employees to manage and process orders.
+This project is a **cloud-native microservices retail application** deployed on **Azure Kubernetes Service (AKS)**. It simulates a BestBuy-style online store with two user interfaces: a **Store-Front** for customers and a **Store-Admin** for employees.
 
-The backend is composed of independent microservices. The **Product Service** manages product data, the **Order Service** receives customer orders, and the **Makeline Service** processes orders asynchronously. Orders are published to **RabbitMQ**, enabling loose coupling and scalability, and are persisted in **MongoDB** for reliability and fault tolerance.
+On the customer side, the **Store-Front** provides a **dynamic menu bar** that allows users to switch between different product categories such as **phones, laptops, and TVs**. Customers can browse products by category and place orders through the frontend interface.
 
-All services are containerized with **Docker** and orchestrated using **Kubernetes**. A **GitHub Actions CI/CD pipeline** automatically builds images, pushes them to **Docker Hub**, and deploys updates to AKS using immutable image tags, demonstrating modern cloud-native design and DevOps best practices.
+The backend consists of independent microservices. The **Product Service** manages product data, the **Order Service** handles customer orders, and the **Makeline Service** processes orders asynchronously. Orders are published to **RabbitMQ** to decouple order intake from processing, improving scalability and resilience. Processed orders are stored in **MongoDB** for persistence.
+
+On the admin side, the **Store-Admin** interface includes a dedicated **order management page** where administrators can **ship products**, updating order status as part of the fulfillment workflow.
+
+All services are containerized using **Docker** and orchestrated with **Kubernetes**. A **GitHub Actions CI/CD pipeline** automatically builds Docker images, pushes them to **Docker Hub**, and deploys updates to AKS, demonstrating modern DevOps and cloud-native best practices.
 
 ---
 
