@@ -1,7 +1,7 @@
 # Lab Project: Cloud-Native App for Best Buy
 
 ## Updated Architecture Diagram
-```
+```mermaid
 flowchart LR
   %% External users
   U[Customer] -->|HTTP| SF_LB[Store-Front\nService: LoadBalancer]
@@ -114,7 +114,7 @@ kubectl get svc -n bestbuy
 
 | Service                            | GitHub Repository                                                                            | Docker Hub Image                                                                                                     |
 | ---------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| Store-Front                        | [https://github.com/soufianemouss/store-front-l8](https://github.com/soufianemouss/store-front-l8)           | [https://hub.docker.com/r/soufianealgonquin/store-front-l8](https://hub.docker.com/r/soufianealgonquin/store-fron-final)           |
+| Store-Front                        | [https://github.com/soufianemouss/store-front-l8](https://github.com/soufianemouss/store-front-l8)           | [https://hub.docker.com/r/soufianealgonquin/store-front-l8](https://hub.docker.com/r/soufianealgonquin/store-front-final)           |
 | Store-Admin                        | [https://github.com/soufianemouss/store-admin-l8](https://github.com/soufianemouss/store-admin-l8)           | [https://hub.docker.com/r/soufianealgonquin/store-admin-l8](https://hub.docker.com/r/soufianealgonquin/store-admin-final)           |
 | Product Service                    | [https://github.com/soufianemouss/product-service-l8](https://github.com/soufianemouss/product-service-l8)   | [https://hub.docker.com/r/soufianealgonquin/product-service-l8](https://hub.docker.com/r/soufianealgonquin/product-service-final)   |
 | Order Service                      | [https://github.com/soufianemouss/order-service-l8](https://github.com/soufianemouss/order-service-l8)       | [https://hub.docker.com/r/soufianealgonquin/order-service-l8](https://hub.docker.com/r/soufianealgonquin/order-service-final)       |
