@@ -31,9 +31,6 @@ flowchart LR
   end
 
 ```
-Perfect — here’s **README-ready content** you can paste directly.
-It’s **concise**, **clear**, and **aligned with what you actually built** (BestBuy microservices on AKS + CI/CD).
-
 ---
 
 ## Brief Application Explanation
